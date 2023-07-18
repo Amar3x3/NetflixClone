@@ -151,13 +151,13 @@ if(!movieId_array.includes(movieId)){
         if (!$(".my-list-carousel").hasClass("slick-initialized")) {
           $(".my-list-carousel").slick({
             slidesToShow: 4,
-            slidesToScroll: 3,
+            slidesToScroll: 2.5,
             responsive: [
               {
                 breakpoint: 850,
                 settings: {
                   slidesToShow: 3,
-                  slidesToScroll: 1,
+                  slidesToScroll: 2.5,
                   infinite: true
                 }
               }
@@ -261,14 +261,14 @@ var movies_list_single;
 
     container.find('.test').slick({
         slidesToShow: 4,
-        slidesToScroll: 3,
+        slidesToScroll: 2.5,
         // autoplay: true,
         // autoplaySpeed: 1500,
         responsive: [{
             breakpoint: 850,
             settings: {
                 slidesToShow: 3,
-                slidesToScroll: 1,
+                slidesToScroll: 2.5,
                 infinite: true
             }
         }]
