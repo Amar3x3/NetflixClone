@@ -116,13 +116,13 @@ if(!movieId_array.includes(movieId)){
     movieId_array.push(movieId);
     console.log(movieId_array);
   
-    // Fetch movie details from the API
+
     fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
       .then(res => res.json())
       .then(movie => {
         console.log(movie);
   
-        // Create the HTML structure for the movie
+
         const movieHTML = `
         <div class="cont movieId${movie.id}">
                      <figure class="testimonial">
@@ -147,28 +147,29 @@ if(!movieId_array.includes(movieId)){
                  </div>
         `;
   
-        // Initialize the Slick Carousel if it hasn't been initialized yet
+
         if (!$(".my-list-carousel").hasClass("slick-initialized")) {
           $(".my-list-carousel").slick({
             slidesToShow: 4,
             slidesToScroll: 2.5,
+              infinite: false,
             responsive: [
               {
                 breakpoint: 850,
                 settings: {
                   slidesToShow: 3,
-                  slidesToScroll: 2.5,
-                  infinite: true
+                  slidesToScroll: 2,
+                  infinite: false
                 }
               }
             ]
           });
         }
   
-        // Add the movie to the Slick Carousel
+
         $(".my-list-carousel").slick("slickAdd", movieHTML);
   
-        // Update the button text or style to indicate that the movie has been added
+
         
       })
       .catch(error => {
@@ -268,7 +269,7 @@ var movies_list_single;
             breakpoint: 850,
             settings: {
                 slidesToShow: 3,
-                slidesToScroll: 2.5,
+                slidesToScroll: 2,
                 infinite: true
             }
         }]
