@@ -7,16 +7,32 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
 
 </head>
 
-<body>
+<body class="bodytest">
+    <div class="search-body">
+       <div class="search-input-container"> <input type="text" placeholder="Search" class="search-input" id="input"> </div>
+        <div class="cards_class" id="cards"></div>
+    </div>
     <div class="navbarr">
         <nav>
 
             <div class="nav_container">
                 <div class="logo">
-                    <img src="./images/Netflix-Logo.png" class="logo" alt="">
+                    <img src="./images/Netflix-Logo.png" class="logo" alt="" >
+                </div>
+                <div class="search" id="mySearch" onclick="searchMovies()">
+                    
+<lord-icon
+    src="https://cdn.lordicon.com/rlizirgt.json"
+    trigger="loop"
+    delay="2500"
+    colors="primary:#ffffff"
+    state="intro"
+    style="width:50px;height:50px">
+</lord-icon>
                 </div>
                 <div class="links">
                     <ul>
@@ -41,7 +57,7 @@
 
 
 
-    <div class="home-slider" style="margin-top: 6.5rem;">
+    <div class="home-slider" style="margin-top: 5.2rem;">
         <div class="home-background-cont" id="home_back_img" style="background-image: url();">
             <!-- <div class="home-slider-title"></div>
                 <div class="home-slider-desc"></div>
@@ -50,26 +66,28 @@
 
 
     </div>
-    <div class="my-list-section">
-        <h1 class="my-list-h1">WatchList</h1>
-        <div class="my-list-carousel">
-          <!-- Movies will be added here -->
-        </div>
-      </div>
+
+    
       
-    <div class="genre-slider">
+    <div class="genre-slider" style="margin: 1% 2%; overflow: hidden;">
+        <div class="my-list-section" style="z-index: 22;">
+            <h1 class="my-list-h1">WatchList</h1>
+            <div class="my-list-carousel" style="z-index: 22;">
+              <!-- Movies will be added here -->
+            </div>
+          </div>
 
     </div>
    
    
     
-    
-    <script src="netflix_app.js"></script>
-    <script src="navbar.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
         integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="netflix_app.js"></script>
+    <script src="navbar.js"></script>
+   
 
     <!-- <script src="net_jquery.js"></script>  -->
     <script>
@@ -89,6 +107,9 @@
         //         }]
         //     });
         // });
+
+       
+  
 
         
 
