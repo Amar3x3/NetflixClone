@@ -18,7 +18,7 @@ html body{
     scroll-behavior:smooth;
     transition: 1s;
     font-family: 'Poppins', sans-serif;
-    background-color: black;
+    background-color: #141414;
     overflow-x: hidden;
 }
 a{
@@ -314,8 +314,9 @@ nav.open .links {
 	position: relative;
 	/* display: block; */
  /* overflow: hidden;  */
- overflow-x: hidden;
- overflow-y: visible;
+ /* overflow-x: hidden;
+ overflow-y: visible; */
+ overflow: visible;
 height: 520px;
 
 	margin: 0;
@@ -479,6 +480,9 @@ figure.testimonial img {
 	max-width: 100%;
 	vertical-align: middle;
 }
+figure .watch-btn img{
+  border-radius: 50%;
+}
 figure.testimonial blockquote {
 	/* display: block; */
 	font-size: 16px;
@@ -496,7 +500,7 @@ figure.testimonial blockquote {
 } */
 figure.testimonial:hover{
   transition: all 0.3s ease-in-out;
-  transform: scale(1.1);
+  transform: scale(1.4);
   z-index: 4;
 }
 
@@ -516,25 +520,45 @@ figure.testimonial:hover{
   height: 100%;
   text-align: center;
   padding: 1rem;
-  visibility: hidden;
-  z-index: 100px;
+  
+  z-index: -1;
   color: white;
-  transform: translateY(300px);
-  background-color: rgba(223, 33, 33, 0.5);
+  /* transform: translateY(300px); */
+  background-color: black;
   cursor: unset;
-  border-radius: 12px;
+    /* inner glow 👇 */
+box-shadow: inset 0 0 0.5px 1px hsla(0, 0%,  
+    100%, 0.075),
+    /* shadow ring 👇 */
+    0 0 0 1px hsla(0, 0%, 0%, 0.05),
+    /* multiple soft shadows 👇 */
+    0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
+    0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+    0 3.5px 6px hsla(0, 0%, 0%, 0.09);
+
 }
 
 figure.testimonial:hover .trans-card{
-  transform: translateY(0);
+  transform: translateY(150px);
   transition: all 0.3s ease-in-out;
   visibility: visible;
+  z-index: 5;
 }
 @media(max-width:450px){
   figure.testimonial:hover .trans-card{
-    transform:unset;
+    transform:translateY(100px);
   }
+  figure.testimonial:hover{
+    transition: all 0.3s ease-in-out;
+    transform: scale(1.8);
+    z-index: 4;
+  }
+  .trans-card{
+    height: 80%;
+  }
+  
 }
+
 
 
 
@@ -565,13 +589,14 @@ figure.testimonial:hover .trans-card{
     ignore  */
 
 
+
 	padding-left: 15px;
 	padding-right: 15px;
   overflow-y: visible;
   overflow: visible;
+ 
   position: relative;
   
-  z-index: 1;
 }
 
 /* slider ------------------------------------ END ----------------------------------------------
@@ -700,12 +725,13 @@ figure .home-slider-btns-2{
     left: 1%;
 }
 figure .watch-btn{
-  padding: 0.5rem 0.7rem;
+  padding: 0;
+  background-color: transparent;
+  border: unset;
+  width: 2rem;
 }
 figure .watch-btn:hover{
-  background-color: white;
-  color: red;
-  border: 1px solid red;
+  border: unset;
 }
 figure h2{
   margin-bottom: 1rem;
@@ -810,10 +836,12 @@ z-index: 2;
     margin-top: 0;
   }
   figure h2{
-    margin-bottom: 0;
+    margin:0;
+    height: 90px;
+    overflow: hidden;
   }
   .trans-card{
-    padding: 0.6rem;
+    padding: 0.2rem;
   }
   .container_2 h1{
     font-size: 21px;
@@ -822,7 +850,7 @@ z-index: 2;
 }
 
 
-.wrapper {
+/* .wrapper {
   display: flex;
   max-width: 1200px;
   position: relative;
@@ -900,7 +928,7 @@ z-index: 2;
   .carousel img {
     width: 100%;
   }
-}
+} */
 
 .container_2{
   margin-top: unset;
@@ -908,17 +936,17 @@ z-index: 2;
 }
 .slick-list{
   height: unset;
-  overflow-y: visible;
+  /* overflow-y: visible; */
 }
 
 
 .container_2{
-  overflow: visible;
+  /* overflow: visible; */
   margin-top: unset;
 }
 
 .slick-list{
-  overflow-y: hidden;
+  overflow: visible;
 }
 .slider-container{
   height: 270px;
@@ -940,6 +968,60 @@ z-index: 2;
 .my-list-h1{
   display: none;
 }
+.search{
+  position: absolute;
+  right: 26%;
+}
+.search-body{
+  height: 200vh;
+  width: 100vw;
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-200vh);
+  transition: all 0.3s ease-in-out;
+  z-index: 100;
+  overflow: hidden;
+}
+.search-body-translate{
+  transform: translateY(5.2rem);
+  height: fit-content;
+  min-height: 100vh;
+}
+.cards_class{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  
+}
+.search-input-container{
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-input{
+  padding: 0.7rem;
+  width: 25rem;
+  margin: auto;
+}
+.card_movies{
+  width: 300px;
+
+}
+.body-height-200vh{
+  min-height: 210vh;
+}
+@media(max-width:920px){
+  .card_movies{
+    width: 200px;
+  }
+}
 @media(max-width:450px){
   .home-background-cont{
     height: 60vh;
@@ -954,5 +1036,15 @@ z-index: 2;
   .home-back-abs .home-slider-btns-2{
     margin-top: 1rem;
     margin-left: -1rem;
+  }
+  .home-slider-title{
+    font-size: 30px;
+    width: 20rem;
+  }
+  .card_movies{
+    width: 100px;
+  }
+  figure h2{
+    font-size: 11px;
   }
 }
