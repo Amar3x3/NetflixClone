@@ -40,6 +40,7 @@ function init(){
     
    fetchandBuildAllSections();
    fetchAndBuildTrending();
+   allMoviesFetch();
 }
 
 function fetchAndBuildTrending(){
@@ -108,21 +109,22 @@ var movieId_array =[];
 function storeMovieId(movieId) {
     var movieid = movieId;
 
-    console.log(movieId_array.includes(movieId));
+    console.log("movieid present:"+movieId_array.includes(movieId));
+    console.log("before :"+movieId_array);
     
 
 if(!movieId_array.includes(movieId)){
 
     movieId_array.push(movieId);
-    console.log(movieId_array);
+    console.log("after :"+movieId_array);
   
-
+    // Fetch movie details from the API
     fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
       .then(res => res.json())
       .then(movie => {
         console.log(movie);
   
-
+        // Create the HTML structure for the movie
         const movieHTML = `
         <div class="cont movieId${movie.id}">
                      <figure class="testimonial">
@@ -131,10 +133,11 @@ if(!movieId_array.includes(movieId)){
                              <div class="trans-card">
                                      <h2>${movie.title}</h2>
                                          <div class="home-slider-btns-2">
-                                             <div class="watch-btn red-btn">Watch
+                                             <div class="watch-btn red-btn">
+                                             <img class="imgWidth_watch_btn" src="./images/play2.jpeg" alt="" srcset="">
                                          </div>
                                         
-                                             <div class="ticks" onclick="storeMovieId(${movie.id})">
+                                             <div class="ticks clicked" onclick="storeMovieId(${movie.id})">
                                                  <div class="tick-1"></div>
                                                  <div class="tick-2"></div>
                                                 
@@ -147,12 +150,12 @@ if(!movieId_array.includes(movieId)){
                  </div>
         `;
   
-
+        // Initialize the Slick Carousel if it hasn't been initialized yet
         if (!$(".my-list-carousel").hasClass("slick-initialized")) {
           $(".my-list-carousel").slick({
-            slidesToShow: 4,
+            slidesToShow: 5,
             slidesToScroll: 2.5,
-              infinite: false,
+            infinite: false,
             responsive: [
               {
                 breakpoint: 850,
@@ -166,35 +169,32 @@ if(!movieId_array.includes(movieId)){
           });
         }
   
-
+        // Add the movie to the Slick Carousel
         $(".my-list-carousel").slick("slickAdd", movieHTML);
   
-
+        // Update the button text or style to indicate that the movie has been added
         
       })
       .catch(error => {
         console.error(error);
       });
     }
-     else{
+     else if(movieId_array.includes(movieId)){
 
         const index = movieId_array.indexOf(movieId);
         movieId_array.splice(index,1);
-        // console.log("movieid in else :"+movieId_array)
+        console.log("movieid in else :"+movieId_array)
         const Item = "movieId"+movieId;
         // console.log("item:"+Item)
         const displayNoneItem = document.querySelector(`.movieId${movieId}`);
         displayNoneItem.setAttribute("style","display:none;");
         displayNoneItem.classList.remove("slick-active");
+        // displayNoneItem.setAttribute("style","display:none;");
+        // displayNoneItem.classList.remove(`movieId${movieId}`);
 
         var $indexid = $(`.movieId${movieId}`).attr("data-slick-index");
-        $('.my-list-carousel').slick('slickRemove', $indexid);
-       
-
-        
-        // console.log(displayNoneItem.classList)
-        
-
+        console.log("slick index:"+$indexid);
+        $('.my-list-carousel').slick('slickRemove', $indexid);     
      }
      const my_list_h1 = document.querySelector(".my-list-h1");
     if(movieId_array.length===0){
@@ -204,7 +204,165 @@ if(!movieId_array.includes(movieId)){
         my_list_h1.setAttribute("style","display:unset;")
     }
   }
+  function searchMovies(){
+
+    const search_body = document.querySelector(".search-body");
+    const body = document.querySelector("body");
+    search_body.classList.toggle("search-body-translate");
+    
+  }
+  $(document).ready(function(){
+    console.log("hello jquery")
+    $("#input").on("keyup", function(){
+        var value = $(this).val().toLowerCase();
+        $("#cards #card").filter(function(){
+            $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1);
+        })
+    })
+})
+
+function allMoviesFetch(){
+    for (let page_no = 1; page_no < 21; page_no++) {
+    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page_no}`)
+    .then(res=>res.json())
+    .then(res=>{
+        var moviess = res.results;
+        // console.log(moviess);
+        if(Array.isArray(moviess)  && moviess.length){
+            
+            getmovieId(moviess)
+        }
+    })
+}
+}
+function getmovieId(movies){
+    
+    movies.map(function(movie){
+        fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}`)
+        .then(res=>res.json())
+        .then(res=>{
+            var movie_with_id = res;
+            // console.log(movie_with_id)
+                searchBodyMoviesdiff(movie_with_id)
+            
+            
+        })
+    })
+    
+}
+
+function searchBodyMoviesdiff(movie){
+    const movieContainer = $(".cards_class");
+    let genres = movie.genres;
+    let obj = JSON.stringify(genres);
+    
+
+    const movieIMG =  `
+        <div class="card_movies" id="card">
+                <figure class="testimonial">
+                    <blockquote>
+                        <img class="imgWidth" src="${imgPath}${movie.backdrop_path}" alt="" srcset="">
+                        <div class="trans-card">
+                                <h2>${movie.title}</h2>
+                                <div style="display:none;">${obj}${movie.overview}</div>
+                                    <div class="home-slider-btns-2">
+                                        <div class="watch-btn">
+                                            <img class="imgWidth_watch_btn" src="./images/play2.jpeg" alt="" srcset="">
+
+                                    </div>
+                                    
+                                        <div class="ticks" onclick="storeMovieId(${movie.id})">
+                                            <div class="tick-1"></div>
+                                            <div class="tick-2"></div>
+                                            
+                                    </div>
+
+                                </div>   
+                            </div>
+                    </blockquote>
+                </figure>
+            </div>        
+        `;
+        // console.log(movieIMG)
+
+    const movieHTML = `
+    
+    <div>
+        ${movieIMG}      
+       </div>     
   
+    `;
+
+    const container = $("<div>").addClass("fuck").html(movieHTML);
+
+    movieContainer.append(container);
+
+    
+
+    
+    container.on("click", ".ticks", function () {
+        $(this).toggleClass("clicked");
+      })
+
+
+}
+
+  function searchBodyMovies(movies){
+    const movieContainer = $(".search-body");
+
+
+    const movieIMG = movies.map(function(movie) {
+        return `
+        <div class="card_movies" id="card">
+                <figure class="testimonial">
+                    <blockquote>
+                        <img class="imgWidth" src="${imgPath}${movie.backdrop_path}" alt="" srcset="">
+                        <div class="trans-card">
+                                <h2>${movie.title}</h2>
+                                <div style="display:none;">${movie.genre}${movie.overview}</div>
+                                    <div class="home-slider-btns-2">
+                                        <div class="watch-btn">
+                                            <img class="imgWidth_watch_btn" src="./images/play2.jpeg" alt="" srcset="">
+
+                                    </div>
+                                    
+                                        <div class="ticks" onclick="storeMovieId(${movie.id})">
+                                            <div class="tick-1"></div>
+                                            <div class="tick-2"></div>
+                                            
+                                    </div>
+
+                                </div>   
+                            </div>
+                    </blockquote>
+                </figure>
+            </div>        
+        `;
+    }).join('');
+    console.log(movieIMG)
+
+    const movieHTML = `
+    
+    <div class="cards_class" id="cards">
+        ${movieIMG}      
+       </div>     
+  
+    `;
+
+    const container = $("<div>").addClass("container_2").html(movieHTML);
+
+    movieContainer.append(container);
+
+    
+
+    
+
+    
+    container.on("click", ".ticks", function () {
+        $(this).toggleClass("clicked");
+      })
+
+  }
 
 
 
@@ -225,7 +383,9 @@ var movies_list_single;
                         <div class="trans-card">
                                 <h2>${movie.title}</h2>
                                     <div class="home-slider-btns-2">
-                                        <div class="watch-btn red-btn">Watch
+                                        <div class="watch-btn">
+                                            <img class="imgWidth_watch_btn" src="./images/play2.jpeg" alt="" srcset="">
+
                                     </div>
                                     
                                         <div class="ticks" onclick="storeMovieId(${movie.id})">
@@ -253,6 +413,11 @@ var movies_list_single;
     const container = $("<div>").addClass("container_2").html(movieHTML);
     movieContainer.append(container);
 
+    const container_2 = $('.container_2');
+    container_2.each(function(i) {
+    $(this).css('z-index', container_2.length - i);
+    });
+
 
     
     container.on("click", ".ticks", function () {
@@ -261,7 +426,7 @@ var movies_list_single;
 
 
     container.find('.test').slick({
-        slidesToShow: 4,
+        slidesToShow: 5,
         slidesToScroll: 2.5,
         // autoplay: true,
         // autoplaySpeed: 1500,
