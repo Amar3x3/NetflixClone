@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+
+
+    <div class="main-container-yt">
+        <div class="back-btn">Back</div>
+        <h1 class="movie-title" style="margin-bottom: 0.5rem;"></h1>
+        <div class="video-container">
+            <div class="video-player"></div>
+            <div class="video-content">
+                <div style="margin-top: 1rem;" class="video-desc"></div>
+                <div class="video-data-mini-grid">
+                <div style="margin-top: 1rem;" class="audiodiv"><h2 style="color: red;">Audio available</h2></div>
+                <div style="margin-top: 1rem;" class="production-company"><h2 style="color: red;">Production Companies</h2></div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+        integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
+    <script>
+        const params = new URLSearchParams(window.location.search);
+    const videoId = params.get('videoId');
+    var movieId = params.get('movieId');
+
+    const backBtn= document.querySelector('.back-btn');
+    backBtn.addEventListener('click',function(){
+        window.location.href=`index.html`
+    })
+
+    async function getMovieById(){
+        await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=acf347697bcf4c77f3a955687b30d605`)
+        .then(res=> res.json())
+        .then(res=>{
+            let movie = res;
+            console.log(movie);
+            displayMovieData(movie);
+        })
+    }
+getMovieById();
+
+
+
+
+function displayMovieData(movieData) {
+  
+  const productionCompaniesDiv = document.querySelector('.production-company');
+  const videoDesc = document.querySelector('.video-desc');
+  const audio = document.querySelector('.audiodiv')
+  const movieTitle = document.querySelector('.movie-title');
+  videoDesc.innerHTML=movieData.overview;
+  movieTitle.innerHTML=movieData.title;
+
+  
+  if (movieData.production_companies && Array.isArray(movieData.production_companies) && movieData.production_companies.length > 0) {
+   
+    movieData.production_companies.forEach((company) => {
+      const paragraph = document.createElement('p');
+      paragraph.textContent = company.name; 
+      productionCompaniesDiv.appendChild(paragraph); 
+    });
+  } else {
+   
+    const noCompaniesMessage = document.createElement('p');
+    noCompaniesMessage.textContent = 'No production companies available.';
+    productionCompaniesDiv.appendChild(noCompaniesMessage);
+  }
+
+  if (movieData.spoken_languages && Array.isArray(movieData.spoken_languages) && movieData.spoken_languages.length > 0) {
+   
+   movieData.spoken_languages.forEach((company) => {
+     const paragraph = document.createElement('p');
+     paragraph.textContent = company.name; 
+     audio.appendChild(paragraph);
+   });
+ } else {
+  
+   const noCompaniesMessage = document.createElement('p');
+   noCompaniesMessage.textContent = 'No audio available.';
+   audio.appendChild(paragraph);
+ }
+}
+
+
+
+
+    // Embed the YouTube trailer in the video container div using the provided iframe code
+    
+        const trailerIframe = `<iframe width="420" height="315"
+        src="https://www.youtube.com/embed/${videoId}?autoplay=1">
+        </iframe>`;
+    
+    const videoContainer = document.querySelector('.video-player');
+    videoContainer.innerHTML = trailerIframe;
+    </script>
+</body>
+</html>
